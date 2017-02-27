@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import email.truemark.http.RestClient;
 import email.truemark.http.RestTemplateClient;
 import email.truemark.model.Domain;
+import email.truemark.model.MailBox;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class TrueMarkEmailClient implements Serializable {
 	}
 
 	public Domain getDomain(UUID id) throws IOException {
-		return restClient.get(getApiUrl("domains/" + id.toString()), Domain.class);
+		return get(getApiUrl("domains/" + id.toString()), Domain.class);
 	}
 
 	public PagedView<Domain> getDomains() throws IOException {
@@ -51,6 +52,22 @@ public class TrueMarkEmailClient implements Serializable {
 
 	public void deleteDomain(UUID id) throws IOException {
 		delete("domains/" + id.toString());
+	}
+
+	public MailBox getMailbox(UUID id) throws IOException {
+		return get(getApiUrl("mailboxes/" + id.toString()), MailBox.class);
+	}
+
+	public PagedView<MailBox> getMailboxes() throws IOException {
+		return get("mailboxes", PagedView.class, MailBox.class);
+	}
+
+	public void deleteMailbox(UUID id) throws IOException {
+		delete("mailboxes/" + id.toString());
+	}
+
+	public MailBox newMailbox() {
+		return new MailBox(this.restClient);
 	}
 
 	public <T> T get(@Nonnull String path, Class<T> clazz) throws IOException {
