@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import email.truemark.http.RestClient;
 import email.truemark.http.RestTemplateClient;
+import email.truemark.model.Alias;
 import email.truemark.model.Domain;
 import email.truemark.model.MailBox;
 import lombok.AccessLevel;
@@ -68,6 +69,22 @@ public class TrueMarkEmailClient implements Serializable {
 
 	public MailBox newMailbox() {
 		return new MailBox(this.restClient);
+	}
+
+	public Alias getAlias(UUID id) throws IOException {
+		return get(getApiUrl("aliases/" + id.toString()), Alias.class);
+	}
+
+	public PagedView<Alias> getAliases() throws IOException {
+		return get("aliases", PagedView.class, Alias.class);
+	}
+
+	public void deleteAlias(UUID id) throws IOException {
+		delete("aliases/" + id.toString());
+	}
+
+	public Alias newAlias() {
+		return new Alias(this.restClient);
 	}
 
 	public <T> T get(@Nonnull String path, Class<T> clazz) throws IOException {
