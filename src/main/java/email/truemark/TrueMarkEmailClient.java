@@ -6,6 +6,7 @@ import email.truemark.http.RestClient;
 import email.truemark.http.RestTemplateClient;
 import email.truemark.model.Alias;
 import email.truemark.model.Domain;
+import email.truemark.model.ExternalMailbox;
 import email.truemark.model.MailBox;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -85,6 +86,22 @@ public class TrueMarkEmailClient implements Serializable {
 
 	public Alias newAlias() {
 		return new Alias(this.restClient);
+	}
+
+	public PagedView<ExternalMailbox> getExternalMailboxes() throws IOException {
+		return get("external_mailboxes", PagedView.class, ExternalMailbox.class);
+	}
+
+	public ExternalMailbox getExternalMailbox(UUID id) throws IOException {
+		return get("external_mailboxes/" + id.toString(), ExternalMailbox.class);
+	}
+
+	public void deleteExternalMailbox(UUID id) throws IOException {
+		delete("external_mailboxes/" + id.toString() );
+	}
+
+	public ExternalMailbox newExternalMailbox() {
+		return new ExternalMailbox(this.restClient);
 	}
 
 	public <T> T get(@Nonnull String path, Class<T> clazz) throws IOException {
