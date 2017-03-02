@@ -28,10 +28,15 @@
 		<findbugs.version>3.0.1</findbugs.version>
 		<hibernate-support.version>0.0.5</hibernate-support.version>
 		<java-commons.version>1.1.0</java-commons.version>
-
+		<junit.version>4.11</junit.version>
 
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>findbugs</artifactId>
