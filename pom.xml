@@ -87,7 +87,7 @@
             <id>validate</id>
             <phase>validate</phase>
             <configuration>
-              <configLocation>google_checks.xml</configLocation>
+              <configLocation>netradius_checks.xml</configLocation>
               <encoding>UTF-8</encoding>
               <consoleOutput>true</consoleOutput>
               <failsOnError>true</failsOnError>
@@ -98,6 +98,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.netradius</groupId>
+            <artifactId>checkstyle-config</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
