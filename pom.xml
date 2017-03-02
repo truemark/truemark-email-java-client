@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>email.truemark</groupId>
-	<artifactId>tm-email-client</artifactId>
+	<artifactId>truemark-email-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>tm-email-client</name>
+	<name>truemark-email-client</name>
 	<description>TrueMark Email Client</description>
 
 	<parent>
