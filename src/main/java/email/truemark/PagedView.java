@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import email.truemark.http.RestClient;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import java.io.IOException;
@@ -72,7 +76,6 @@ public class PagedView<R> implements Serializable {
       ? restClient.get(links.get("prev"), PagedView.class, this.getClass())
       : this;
   }
-
 
   @Data
   public static class PageMetadata {
