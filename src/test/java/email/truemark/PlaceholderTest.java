@@ -7,9 +7,9 @@ import org.junit.Test;
  */
 public class PlaceholderTest {
 
-	@Test
-	public void test() {
-		// TODO We need to add some real unit tests
-	}
+  @Test
+  public void test() {
+    // TODO We need to add some real unit tests
+  }
 
 }

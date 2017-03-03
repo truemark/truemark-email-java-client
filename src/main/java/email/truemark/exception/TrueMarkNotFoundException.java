@@ -4,25 +4,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Not found exception.
+ *
  * @author Dilip S Sisodia
  */
 @Data
 @NoArgsConstructor
 public class TrueMarkNotFoundException extends TrueMarkException {
-	private static final long serialVersionUID = -1018398852945241952L;
 
-	private String detailMessage;
+  private static final long serialVersionUID = -1018398852945241952L;
 
-	public TrueMarkNotFoundException(String message) {
-		super(message);
-		this.detailMessage = message;
-	}
+  private String detailMessage;
 
-	public TrueMarkNotFoundException(String message, Throwable t) {
-		super(message, t);
-	}
+  public TrueMarkNotFoundException(String message) {
+    super(message);
+    this.detailMessage = message;
+  }
 
-	public TrueMarkNotFoundException(Throwable t) {
-		super(t);
-	}
+  public TrueMarkNotFoundException(String message, Throwable t) {
+    super(message, t);
+  }
+
+  public TrueMarkNotFoundException(Throwable t) {
+    super(t);
+  }
 }

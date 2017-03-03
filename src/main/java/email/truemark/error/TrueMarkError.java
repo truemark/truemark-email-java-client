@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Error fields for exceptions.
+ *
  * @author Dilip S Sisodia
  */
 @Data
@@ -13,6 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrueMarkError {
-	private String message;
-	private String field;
+  private String message;
+  private String field;
 }

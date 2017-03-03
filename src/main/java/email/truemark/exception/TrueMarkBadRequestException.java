@@ -8,22 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Bad Request Exception.
+ *
  * @author Dilip S Sisodia
  */
 @Data
 @NoArgsConstructor
 public class TrueMarkBadRequestException extends TrueMarkException {
 
-	private static final long serialVersionUID = 4575363667276218487L;
+  private static final long serialVersionUID = 4575363667276218487L;
 
-	protected List<TrueMarkError> errors = new ArrayList<>();
+  protected List<TrueMarkError> errors = new ArrayList<>();
 
-	public TrueMarkBadRequestException(String message) {
-		super(message);
-	}
+  public TrueMarkBadRequestException(String message) {
+    super(message);
+  }
 
-	public TrueMarkBadRequestException(String message, List<TrueMarkError> errors) {
-		super(message);
-		this.errors = errors;
-	}
+  public TrueMarkBadRequestException(String message, List<TrueMarkError> errors) {
+    super(message);
+    this.errors = errors;
+  }
 }

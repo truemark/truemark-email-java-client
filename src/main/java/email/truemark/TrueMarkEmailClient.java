@@ -1,118 +1,112 @@
 package email.truemark;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import email.truemark.http.RestClient;
-import email.truemark.http.RestTemplateClient;
+import email.truemark.http.URLConnectionRestClient;
 import email.truemark.model.Alias;
 import email.truemark.model.Domain;
 import email.truemark.model.ExternalMailbox;
 import email.truemark.model.MailBox;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.UUID;
+import javax.annotation.Nonnull;
 
-/**
+/*
  * @author Dilip S Sisodia
  */
 public class TrueMarkEmailClient implements Serializable {
 
-	private static final long serialVersionUID = 4296234100621890081L;
-	protected String url;
+  private static final long serialVersionUID = 4296234100621890081L;
+  private String url;
+  private RestClient restClient;
 
-	protected String getApiUrl(@Nonnull String path) {
-		return !url.startsWith("http") ? this.url + path : path;
-	}
+  private String getApiUrl(@Nonnull String path) {
+    return path.startsWith("http") ? path : this.url + path;
+  }
 
-	@JsonIgnore
-	@JacksonInject("restClient")
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	protected RestClient restClient;
+  public TrueMarkEmailClient(String url) {
+    this.url = url;
+    this.restClient = new URLConnectionRestClient(url);
+  }
 
-	public TrueMarkEmailClient(String url) {
-		this.url = url;
-		this.restClient = new RestTemplateClient(url);
-	}
+  public Domain getDomain(UUID id) throws IOException {
+    return get(getApiUrl("/domains/" + id.toString()), Domain.class);
+  }
 
-	public Domain getDomain(UUID id) throws IOException {
-		return get(getApiUrl("domains/" + id.toString()), Domain.class);
-	}
+  @SuppressWarnings("unchecked")
+  public PagedView<Domain> getDomains() throws IOException {
+    return get("/domains", PagedView.class, Domain.class);
+  }
 
-	public PagedView<Domain> getDomains() throws IOException {
-		return get("domains", PagedView.class, Domain.class);
-	}
+  public Domain newDomain() {
+    return new Domain(this.restClient);
+  }
 
-	public Domain newDomain() {
-		return new Domain(this.restClient);
-	}
+  public void deleteDomain(UUID id) throws IOException {
+    delete("/domains/" + id.toString());
+  }
 
-	public void deleteDomain(UUID id) throws IOException {
-		delete("domains/" + id.toString());
-	}
+  public MailBox getMailbox(UUID id) throws IOException {
+    return get(getApiUrl("/mailboxes/" + id.toString()), MailBox.class);
+  }
 
-	public MailBox getMailbox(UUID id) throws IOException {
-		return get(getApiUrl("mailboxes/" + id.toString()), MailBox.class);
-	}
+  @SuppressWarnings("unchecked")
+  public PagedView<MailBox> getMailboxes() throws IOException {
+    return get("/mailboxes", PagedView.class, MailBox.class);
+  }
 
-	public PagedView<MailBox> getMailboxes() throws IOException {
-		return get("mailboxes", PagedView.class, MailBox.class);
-	}
+  public void deleteMailbox(UUID id) throws IOException {
+    delete("/mailboxes/" + id.toString());
+  }
 
-	public void deleteMailbox(UUID id) throws IOException {
-		delete("mailboxes/" + id.toString());
-	}
+  public MailBox newMailbox() {
+    return new MailBox(this.restClient);
+  }
 
-	public MailBox newMailbox() {
-		return new MailBox(this.restClient);
-	}
+  public Alias getAlias(UUID id) throws IOException {
+    return get(getApiUrl("/aliases/" + id.toString()), Alias.class);
+  }
 
-	public Alias getAlias(UUID id) throws IOException {
-		return get(getApiUrl("aliases/" + id.toString()), Alias.class);
-	}
+  @SuppressWarnings("unchecked")
+  public PagedView<Alias> getAliases() throws IOException {
+    return get("/aliases", PagedView.class, Alias.class);
+  }
 
-	public PagedView<Alias> getAliases() throws IOException {
-		return get("aliases", PagedView.class, Alias.class);
-	}
+  public void deleteAlias(UUID id) throws IOException {
+    delete("/aliases/" + id.toString());
+  }
 
-	public void deleteAlias(UUID id) throws IOException {
-		delete("aliases/" + id.toString());
-	}
+  public Alias newAlias() {
+    return new Alias(this.restClient);
+  }
 
-	public Alias newAlias() {
-		return new Alias(this.restClient);
-	}
+  @SuppressWarnings("unchecked")
+  public PagedView<ExternalMailbox> getExternalMailboxes() throws IOException {
+    return get("/external_mailboxes", PagedView.class, ExternalMailbox.class);
+  }
 
-	public PagedView<ExternalMailbox> getExternalMailboxes() throws IOException {
-		return get("external_mailboxes", PagedView.class, ExternalMailbox.class);
-	}
+  public ExternalMailbox getExternalMailbox(UUID id) throws IOException {
+    return get("/external_mailboxes/" + id.toString(), ExternalMailbox.class);
+  }
 
-	public ExternalMailbox getExternalMailbox(UUID id) throws IOException {
-		return get("external_mailboxes/" + id.toString(), ExternalMailbox.class);
-	}
+  public void deleteExternalMailbox(UUID id) throws IOException {
+    delete("/external_mailboxes/" + id.toString());
+  }
 
-	public void deleteExternalMailbox(UUID id) throws IOException {
-		delete("external_mailboxes/" + id.toString() );
-	}
+  public ExternalMailbox newExternalMailbox() {
+    return new ExternalMailbox(this.restClient);
+  }
 
-	public ExternalMailbox newExternalMailbox() {
-		return new ExternalMailbox(this.restClient);
-	}
+  public <T> T get(@Nonnull String path, Class<T> clazz) throws IOException {
+    return restClient.get(getApiUrl(path), clazz);
+  }
 
-	public <T> T get(@Nonnull String path, Class<T> clazz) throws IOException {
-		return restClient.get(getApiUrl(path), clazz);
-	}
+  public <T, S> T get(String path, Class<T> clazz, Class<S> parameterClass) throws IOException {
+    return restClient.get(getApiUrl(path), clazz, parameterClass);
+  }
 
-	public <T, S> T get(String path, Class<T> clazz, Class<S> parameterClass) throws IOException {
-		return restClient.get(getApiUrl(path), clazz, parameterClass);
-	}
-
-	public <T> void delete(String path) throws IOException {
-		restClient.delete(getApiUrl(path));
-	}
+  public <T> void delete(String path) throws IOException {
+    restClient.delete(getApiUrl(path));
+  }
 }
